@@ -10,6 +10,7 @@ import sys
 import unittest
 import warnings
 from setuptools.command.build_ext import build_ext as orig_build_ext
+from packaging import version
 
 # We need to import tensorflow to find where its include directory is.
 try:
@@ -57,7 +58,7 @@ tf_includes = [tf_include, tf_src_dir]
 warp_ctc_includes = [os.path.join(root_path, '../include')]
 include_dirs = tf_includes + warp_ctc_includes
 
-if tf.__version__ >= '1.4':
+if version.parse(tf.__version__) >= version.parse('1.4'):
     include_dirs += [tf_include + '/../../external/nsync/public']
 
 if os.getenv("TF_CXX11_ABI") is not None:
@@ -78,7 +79,7 @@ extra_compile_args = ['-std=c++11', '-fPIC', '-D_GLIBCXX_USE_CXX11_ABI=' + TF_CX
 extra_compile_args += ['-Wno-return-type']
 
 extra_link_args = []
-if tf.__version__ >= '1.4':
+if version.parse(tf.__version__) >= version.parse('1.4'):
     if os.path.exists(os.path.join(tf_src_dir, 'libtensorflow_framework.so')):
         extra_link_args = ['-L' + tf.sysconfig.get_lib(), '-ltensorflow_framework']
 
