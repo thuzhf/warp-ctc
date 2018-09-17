@@ -33,7 +33,7 @@ make
 Otherwise, set `WARP_CTC_PATH` to wherever you have `libwarpctc.so`
 installed. If you have a GPU, you should also make sure that
 `CUDA_HOME` is set to the home cuda directory (i.e. where
-`include/cuda.h` and `lib/libcudart.so` live. It is probably `/usr/local/cuda`).
+`include/cuda.h` and `lib/libcudart.so` live). It is probably `/usr/local/cuda`.
 
 You should now be able to use `setup.py` to install the package into
 your current Python environment:
