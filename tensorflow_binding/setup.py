@@ -11,6 +11,7 @@ import unittest
 import warnings
 from setuptools.command.build_ext import build_ext as orig_build_ext
 from packaging import version
+from distutils.sysconfig import get_python_lib
 
 # We need to import tensorflow to find where its include directory is.
 try:
@@ -30,10 +31,9 @@ else:
 
 
 if "TENSORFLOW_SRC_PATH" not in os.environ:
-    print("Please define the TENSORFLOW_SRC_PATH environment variable.\n"
-          "This should be a path to the Tensorflow source directory.",
-          file=sys.stderr)
-    sys.exit(1)
+    tf_src_dir = os.path.join(get_python_lib(), 'tensorflow')
+else:
+    tf_src_dir = os.getenv("TENSORFLOW_SRC_PATH")
 
 if platform.system() == 'Darwin':
     lib_ext = ".dylib"
@@ -53,7 +53,6 @@ if not os.path.exists(os.path.join(warp_ctc_path, "libwarpctc"+lib_ext)):
 root_path = os.path.realpath(os.path.dirname(__file__))
 
 tf_include = tf.sysconfig.get_include()
-tf_src_dir = os.environ["TENSORFLOW_SRC_PATH"]
 tf_includes = [tf_include, tf_src_dir]
 warp_ctc_includes = [os.path.join(root_path, '../include')]
 include_dirs = tf_includes + warp_ctc_includes
