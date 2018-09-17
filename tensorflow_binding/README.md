@@ -12,18 +12,9 @@ defaults to `0`.
 
 ## Installation
 
-To build the kernels it is necessary to have the TensorFlow source
-code available, since TensorFlow doesn't currently install the
-necessary headers to handle the SparseTensor that the CTCLoss op uses
-to input the labels.  You can retrieve the TensorFlow source from
-github.com:
-
-```bash
-git clone https://github.com/tensorflow/tensorflow.git
-```
-
 Tell the build scripts where you have the TensorFlow source tree by
-setting the `TENSORFLOW_SRC_PATH` environment variable:
+setting the `TENSORFLOW_SRC_PATH` environment variable (if `TENSORFLOW_SRC_PATH`
+is not set, we will try to figure it out in our code):
 
 ```bash
 export TENSORFLOW_SRC_PATH=/path/to/tensorflow
@@ -42,7 +33,7 @@ make
 Otherwise, set `WARP_CTC_PATH` to wherever you have `libwarpctc.so`
 installed. If you have a GPU, you should also make sure that
 `CUDA_HOME` is set to the home cuda directory (i.e. where
-`include/cuda.h` and `lib/libcudart.so` live).
+`include/cuda.h` and `lib/libcudart.so` live. It is probably `/usr/local/cuda`).
 
 You should now be able to use `setup.py` to install the package into
 your current Python environment:
@@ -66,7 +57,13 @@ import warpctc_tensorflow
 ```
 
 The GPU kernel for the existing `CTCLoss` op is registered and ready
-to use.  If you want to use WarpCTC as the CPU kernel for the
+to use:
+
+```python
+loss = tf.nn.ctc_loss(inputs, labels, seq_lens)
+```
+
+If you want to use WarpCTC as the CPU kernel for the
 `CTCLoss` op you can use the ("experimental") `_kernel_label_map`
 function to tell TensorFlow to use WarpCTC kernels instead of the
 default CPU kernel:
