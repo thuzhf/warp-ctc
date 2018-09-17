@@ -58,8 +58,8 @@ tf_includes = [tf_include, tf_src_dir]
 warp_ctc_includes = [os.path.join(root_path, '../include')]
 include_dirs = tf_includes + warp_ctc_includes
 
-if version.parse(tf.__version__) >= version.parse('1.4'):
-    include_dirs += [tf_include + '/../../external/nsync/public']
+if version.parse(tf.__version__) >= version.parse('1.10'):
+    include_dirs.append(os.path.join(tf_include, 'external/nsync/public'))
 
 if os.getenv("TF_CXX11_ABI") is not None:
     TF_CXX11_ABI = os.getenv("TF_CXX11_ABI")
@@ -79,7 +79,7 @@ extra_compile_args = ['-std=c++11', '-fPIC', '-D_GLIBCXX_USE_CXX11_ABI=' + TF_CX
 extra_compile_args += ['-Wno-return-type']
 
 extra_link_args = []
-if version.parse(tf.__version__) >= version.parse('1.4'):
+if version.parse(tf.__version__) >= version.parse('1.10'):
     if os.path.exists(os.path.join(tf_src_dir, 'libtensorflow_framework.so')):
         extra_link_args = ['-L' + tf.sysconfig.get_lib(), '-ltensorflow_framework']
 
@@ -88,10 +88,9 @@ if (enable_gpu):
     include_dirs += [os.path.join(os.environ["CUDA_HOME"], 'include')]
 
     # mimic tensorflow cuda include setup so that their include command work
-    if not os.path.exists(os.path.join(root_path, "include")):
-        os.mkdir(os.path.join(root_path, "include"))
+    os.makedirs(os.path.join(root_path, 'include'), exist_ok=True)
 
-    cuda_inc_path = os.path.join(root_path, "include/cuda")
+    cuda_inc_path = os.path.join(root_path, 'include/cuda')
     if not os.path.exists(cuda_inc_path) or os.readlink(cuda_inc_path) != os.environ["CUDA_HOME"]:
         if os.path.exists(cuda_inc_path):
             os.remove(cuda_inc_path)
