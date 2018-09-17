@@ -12,6 +12,10 @@ defaults to `0`.
 
 ## Installation
 
+Make sure you have the latest TensorFlow installed. If you are not sure,
+run `pip install -U tensorflow-gpu` or (if you
+don't have a GPU) run `pip install -U tensorflow`.
+
 Tell the build scripts where you have the TensorFlow source tree by
 setting the `TENSORFLOW_SRC_PATH` environment variable (if `TENSORFLOW_SRC_PATH`
 is not set, we will try to figure it out in our code):
