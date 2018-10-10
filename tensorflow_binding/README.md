@@ -25,11 +25,11 @@ is not set, we will try to figure it out in our code): `export TENSORFLOW_SRC_PA
 (or wherever you have `libwarpctc.so` installed).  This defaults to `../build`, so from within a
 new warp-ctc clone you could build WarpCTC like this (make sure you are already under the `warp-ctc` directory):
 
-```bash
-mkdir build; cd build
-cmake ..
-make
-```
+    ```bash
+    mkdir build; cd build
+    cmake ..
+    make
+    ```
 
 You should now be able to use `setup.py` to install the package into
 your current Python environment:
