@@ -12,7 +12,7 @@ defaults to `0`.
 
 ## Installation
 * Install the latest TensorFlow: `pip install -U tensorflow-gpu` or (if you
-don't have a GPU) `pip install -U tensorflow`.
+don't have a GPU) `pip install -U tensorflow`. Make sure its version is >= 1.11.0, otherwise you should probably need to set `TF_CXX11_ABI` to `0` in the environment variables.
 
 * If you have a GPU, you **must** make sure that
 `CUDA_HOME` is set to the home cuda directory (i.e. where
