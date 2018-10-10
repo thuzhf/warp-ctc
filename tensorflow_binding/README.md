@@ -11,33 +11,25 @@ WarpCTC op takes the reserved blank label value as an attribute which
 defaults to `0`.
 
 ## Installation
+* Install the latest TensorFlow: `pip install -U tensorflow-gpu` or (if you
+don't have a GPU) `pip install -U tensorflow`.
 
-Make sure you have the latest TensorFlow installed. If you are not sure,
-run `pip install -U tensorflow-gpu` or (if you
-don't have a GPU) run `pip install -U tensorflow`.
+* If you have a GPU, you **must** make sure that
+`CUDA_HOME` is set to the home cuda directory (i.e. where
+`include/cuda.h` and `lib/libcudart.so` live). It is probably `/usr/local/cuda`.
 
-Tell the build scripts where you have the TensorFlow source tree by
-setting the `TENSORFLOW_SRC_PATH` environment variable (if `TENSORFLOW_SRC_PATH`
-is not set, we will try to figure it out in our code):
+* (Not necessarily) Set `TENSORFLOW_SRC_PATH` to the path of your installed TensorFlow library (if `TENSORFLOW_SRC_PATH`
+is not set, we will try to figure it out in our code): `export TENSORFLOW_SRC_PATH=/path/to/tensorflow`
 
-```bash
-export TENSORFLOW_SRC_PATH=/path/to/tensorflow
-```
-
-`WARP_CTC_PATH` should be set to the location of a built WarpCTC
-(i.e. `libwarpctc.so`).  This defaults to `../build`, so from within a
-new warp-ctc clone you could build WarpCTC like this:
+* (Not necessarily) Set `WARP_CTC_PATH` to the location of a built WarpCTC
+(or wherever you have `libwarpctc.so` installed).  This defaults to `../build`, so from within a
+new warp-ctc clone you could build WarpCTC like this (make sure you are already under the `warp-ctc` directory):
 
 ```bash
 mkdir build; cd build
 cmake ..
 make
 ```
-
-Otherwise, set `WARP_CTC_PATH` to wherever you have `libwarpctc.so`
-installed. If you have a GPU, you should also make sure that
-`CUDA_HOME` is set to the home cuda directory (i.e. where
-`include/cuda.h` and `lib/libcudart.so` live). It is probably `/usr/local/cuda`.
 
 You should now be able to use `setup.py` to install the package into
 your current Python environment:
