@@ -57,28 +57,24 @@ tf_includes = [tf_include, tf_src_dir]
 warp_ctc_includes = [os.path.join(root_path, '../include')]
 include_dirs = tf_includes + warp_ctc_includes
 
-if version.parse(tf.__version__) >= version.parse('1.10'):
+if version.parse(tf.__version__) >= version.parse('1.11'):
     include_dirs.append(os.path.join(tf_include, 'external/nsync/public'))
 
 if os.getenv("TF_CXX11_ABI") is not None:
     TF_CXX11_ABI = os.getenv("TF_CXX11_ABI")
 else:
-    warnings.warn("Assuming tensorflow was compiled without C++11 ABI. "
-                  "It is generally true if you are using binary pip package. "
-                  "If you compiled tensorflow from source with gcc >= 5 and didn't set "
-                  "-D_GLIBCXX_USE_CXX11_ABI=0 during compilation, you need to set "
-                  "environment variable TF_CXX11_ABI=1 when compiling this bindings. "
-                  "Also be sure to touch some files in src to trigger recompilation. "
-                  "Also, you need to set (or unsed) this environment variable if getting "
+    warnings.warn("Assuming tensorflow was compiled with C++11 ABI. "
+                  "It is generally true if you are using binary pip package whose version is >= 1.11.0. "
+                  "Also, you need to set (or unset) this environment variable if getting "
                   "undefined symbol: _ZN10tensorflow... errors")
-    TF_CXX11_ABI = "0"
+    TF_CXX11_ABI = "1"
 
 extra_compile_args = ['-std=c++11', '-fPIC', '-D_GLIBCXX_USE_CXX11_ABI=' + TF_CXX11_ABI]
 # current tensorflow code triggers return type errors, silence those for now
 extra_compile_args += ['-Wno-return-type']
 
 extra_link_args = []
-if version.parse(tf.__version__) >= version.parse('1.10'):
+if version.parse(tf.__version__) >= version.parse('1.11'):
     if os.path.exists(os.path.join(tf_src_dir, 'libtensorflow_framework.so')):
         extra_link_args = ['-L' + tf.sysconfig.get_lib(), '-ltensorflow_framework']
 
